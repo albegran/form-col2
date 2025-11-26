@@ -255,7 +255,7 @@ function actualizarTextoPrefijo(select) {
     const prefix = opcion.dataset.prefix || select.value;
 
     if (prefijoFlag && flagCode) {
-        prefijoFlag.style.backgroundImage = `url('banderas/${flagCode}.png')`;
+        prefijoFlag.style.backgroundImage = "url('banderas/${flagCode}.png')";
     }
 
     if (prefijoPrefixSpan) {
