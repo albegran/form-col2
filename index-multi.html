@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Formulario de Solicitud</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Tipografías -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;600;700&family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="styles-multi.css">
+</head>
+<body>
+    <main class="contenedor-principal">
+        <form id="registroForm"
+              class="formulario"
+              aria-label="Formulario de solicitud"
+              novalidate
+              data-ga4-event="form_view">
+
+            <!-- Variante iframe: sin título ni subtítulo -->
+            <!-- CONTENEDOR DOS COLUMNAS -->
+            <div class="form-columns">
+                <!-- ===== COLUMNA IZQUIERDA ===== -->
+                <div class="form-column form-column-left">
+
+                    <!-- Soy... SOLO SELECT (desktop + mobile) -->
+                    <div class="campo campo-select campo-perfil-select">
+                        <div class="campo-control-select">
+                            <select id="perfil-mobile"
+                                    name="perfil"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="error-perfil"
+                                    data-ga4-event="perfil_select">
+                                <option value="" disabled selected hidden></option>
+                                <option value="estudiante">Estudiante</option>
+                                <option value="padre_madre_tutor">Padre/Madre/Tutor</option>
+                                <option value="profesor_orientador">Profesor / Orientador</option>
+                            </select>
+                            <label for="perfil-mobile">Soy…</label>
+                        </div>
+                        <small id="error-perfil" class="mensaje-error">Seleccione un tipo de perfil</small>
+                    </div>
+
+                    <!-- Nombre -->
+                    <div class="campo flotante campo-texto" data-tipo="nombre">
+                        <div class="campo-control">
+                            <input id="nombre"
+                                   name="nombre"
+                                   type="text"
+                                   required
+                                   minlength="2"
+                                   placeholder=" "
+                                   autocomplete="given-name"
+                                   aria-required="true"
+                                   aria-describedby="error-nombre"
+                                   data-tipo-validacion="texto-min2"
+                                   data-ga4-event="campo_nombre">
+                            <label for="nombre">Nombre</label>
+                            <span class="icono-validacion" aria-hidden="true"></span>
+                        </div>
+                        <small id="error-nombre" class="mensaje-error">Introduzca un nombre correcto</small>
+                    </div>
+
+                    <!-- Apellidos -->
+                    <div class="campo flotante campo-texto" data-tipo="apellidos">
+                        <div class="campo-control">
+                            <input id="apellidos"
+                                   name="apellidos"
+                                   type="text"
+                                   required
+                                   minlength="2"
+                                   placeholder=" "
+                                   autocomplete="family-name"
+                                   aria-required="true"
+                                   aria-describedby="error-apellidos"
+                                   data-tipo-validacion="texto-min2"
+                                   data-ga4-event="campo_apellidos">
+                            <label for="apellidos">Apellidos</label>
+                            <span class="icono-validacion" aria-hidden="true"></span>
+                        </div>
+                        <small id="error-apellidos" class="mensaje-error">Introduzca unos apellidos correctos</small>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="campo flotante campo-texto" data-tipo="email">
+                        <div class="campo-control">
+                            <input id="email"
+                                   name="email"
+                                   type="email"
+                                   required
+                                   placeholder=" "
+                                   autocomplete="email"
+                                   aria-required="true"
+                                   aria-describedby="error-email"
+                                   data-tipo-validacion="email"
+                                   data-ga4-event="campo_email">
+                            <label for="email">Email</label>
+                            <span class="icono-validacion" aria-hidden="true"></span>
+                        </div>
+                        <small id="error-email" class="mensaje-error">Introduzca un email correcto</small>
+                    </div>
+
+                    <!-- Prefijo + Teléfono -->
+                    <div class="fila-prefijo-telefono">
+                        <!-- Prefijo (pseudo-select) -->
+                        <div class="campo campo-select campo-prefijo">
+                            <div class="campo-control-select">
+                                <!-- Overlay bandera + prefijo en cerrado -->
+                                <div class="prefijo-overlay" aria-hidden="true">
+                                    <span class="prefijo-flag"></span>
+                                    <span class="prefijo-prefix"></span>
+                                </div>
+
+                                <!-- Select nativo -->
+                                <select id="prefijo"
+                                        name="prefijo"
+                                        required
+                                        aria-required="true"
+                                        aria-describedby="error-prefijo"
+                                        data-ga4-event="select_prefijo"
+                                        class="select-scroll-7">
+                                    <option value="" disabled selected hidden></option>
+                                    <option value="+34" data-flag="es" data-prefix="+34" data-country="España">
+                                        España +34
+                                    </option>
+                                    <option value="+33" data-flag="fr" data-prefix="+33" data-country="Francia">
+                                        Francia +33
+                                    </option>
+                                    <option value="+39" data-flag="it" data-prefix="+39" data-country="Italia">
+                                        Italia +39
+                                    </option>
+                                    <option value="+49" data-flag="de" data-prefix="+49" data-country="Alemania">
+                                        Alemania +49
+                                    </option>
+                                    <option value="+44" data-flag="gb" data-prefix="+44" data-country="Reino Unido">
+                                        Reino Unido +44
+                                    </option>
+                                    <option value="+1" data-flag="us" data-prefix="+1" data-country="Estados Unidos">
+                                        Estados Unidos +1
+                                    </option>
+                                    <option value="+52" data-flag="mx" data-prefix="+52" data-country="México">
+                                        México +52
+                                    </option>
+                                    <option value="+55" data-flag="br" data-prefix="+55" data-country="Brasil">
+                                        Brasil +55
+                                    </option>
+                                    <option value="+81" data-flag="jp" data-prefix="+81" data-country="Japón">
+                                        Japón +81
+                                    </option>
+                                    <option value="+61" data-flag="au" data-prefix="+61" data-country="Australia">
+                                        Australia +61
+                                    </option>
+                                </select>
+
+                                <!-- Trigger pseudo-select -->
+                                <button type="button"
+                                        class="pseudo-native-trigger"
+                                        id="prefijo-trigger"
+                                        aria-haspopup="listbox"
+                                        aria-expanded="false">
+                                </button>
+
+                                <!-- Dropdown pseudo-select -->
+                                <div class="pseudo-native-dropdown select-scroll-7"
+                                     id="prefijo-dropdown"
+                                     role="listbox"
+                                     aria-labelledby="prefijo-trigger">
+                                </div>
+
+                                <label for="prefijo-trigger">Prefijo</label>
+                            </div>
+                            <small id="error-prefijo" class="mensaje-error">Seleccione un prefijo</small>
+                        </div>
+
+                        <!-- Teléfono -->
+                        <div class="campo flotante campo-texto campo-telefono" data-tipo="telefono">
+                            <div class="campo-control">
+                                <input id="telefono"
+                                       name="telefono"
+                                       type="text"
+                                       required
+                                       placeholder=" "
+                                       autocomplete="tel"
+                                       aria-required="true"
+                                       aria-describedby="error-telefono"
+                                       data-tipo-validacion="telefono"
+                                       data-ga4-event="campo_telefono">
+                                <label for="telefono">Teléfono</label>
+                                <span class="icono-validacion" aria-hidden="true"></span>
+                            </div>
+                            <small id="error-telefono" class="mensaje-error">Teléfono no válido</small>
+                        </div>
+                    </div>
+
+                    <!-- País del centro (pseudo-select) -->
+                    <div class="campo campo-select campo-pais">
+                        <div class="campo-control-select">
+                            <!-- Overlay bandera + país -->
+                            <div class="pais-overlay" aria-hidden="true">
+                                <span class="pais-flag"></span>
+                                <span class="pais-text"></span>
+                            </div>
+
+                            <!-- Select nativo -->
+                            <select id="pais-centro"
+                                    name="pais-centro"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="error-pais-centro"
+                                    data-ga4-event="select_pais_centro"
+                                    class="select-scroll-7">
+                                <option value="" disabled selected hidden></option>
+
+                                <!-- España primero -->
+                                <option value="España" data-flag="es">España</option>
+
+                                <!-- Resto alfabético -->
+                                <option value="Alemania" data-flag="de">Alemania</option>
+                                <option value="Argentina" data-flag="ar">Argentina</option>
+                                <option value="Australia" data-flag="au">Australia</option>
+                                <option value="Brasil" data-flag="br">Brasil</option>
+                                <option value="Canadá" data-flag="ca">Canadá</option>
+                                <option value="Chile" data-flag="cl">Chile</option>
+                                <option value="China" data-flag="cn">China</option>
+                                <option value="Colombia" data-flag="co">Colombia</option>
+                                <option value="Egipto" data-flag="eg">Egipto</option>
+                                <option value="Estados Unidos" data-flag="us">Estados Unidos</option>
+                                <option value="Francia" data-flag="fr">Francia</option>
+                                <option value="India" data-flag="in">India</option>
+                                <option value="Italia" data-flag="it">Italia</option>
+                                <option value="Japón" data-flag="jp">Japón</option>
+                                <option value="México" data-flag="mx">México</option>
+                                <option value="Perú" data-flag="pe">Perú</option>
+                                <option value="Portugal" data-flag="pt">Portugal</option>
+                                <option value="Reino Unido" data-flag="gb">Reino Unido</option>
+                                <option value="Sudáfrica" data-flag="za">Sudáfrica</option>
+                            </select>
+
+                            <!-- Trigger pseudo-select -->
+                            <button type="button"
+                                    class="pseudo-native-trigger"
+                                    id="pais-centro-trigger"
+                                    aria-haspopup="listbox"
+                                    aria-expanded="false">
+                            </button>
+
+                            <!-- Dropdown pseudo-select -->
+                            <div class="pseudo-native-dropdown select-scroll-7"
+                                 id="pais-centro-dropdown"
+                                 role="listbox"
+                                 aria-labelledby="pais-centro-trigger">
+                            </div>
+
+                            <label for="pais-centro-trigger">País del centro en el que estudio</label>
+                        </div>
+                        <small id="error-pais-centro" class="mensaje-error">Seleccione un país</small>
+                    </div>
+
+                    <!-- Provincia del centro (pseudo-select) -->
+                    <div class="campo campo-select campo-provincia" style="display:none;">
+                        <div class="campo-control-select">
+                            <select id="provincia-centro"
+                                    name="provincia-centro"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="error-provincia-centro"
+                                    data-ga4-event="select_provincia_centro"
+                                    class="select-scroll-7"
+                                    disabled>
+                                <option value="" disabled selected hidden></option>
+                            </select>
+
+                            <!-- Trigger pseudo-select -->
+                            <button type="button"
+                                    class="pseudo-native-trigger"
+                                    id="provincia-centro-trigger"
+                                    aria-haspopup="listbox"
+                                    aria-expanded="false">
+                            </button>
+
+                            <!-- Dropdown pseudo-select -->
+                            <div class="pseudo-native-dropdown select-scroll-7"
+                                 id="provincia-centro-dropdown"
+                                 role="listbox"
+                                 aria-labelledby="provincia-centro-trigger">
+                            </div>
+
+                            <label for="provincia-centro-trigger">Provincia del centro en el que estudio</label>
+                        </div>
+                        <small id="error-provincia-centro" class="mensaje-error">Seleccione una provincia</small>
+                    </div>
+
+                    <!-- Localidad del centro (pseudo-select) -->
+                    <div class="campo campo-select campo-localidad" style="display:none;">
+                        <div class="campo-control-select">
+                            <select id="localidad-centro"
+                                    name="localidad-centro"
+                                    aria-required="false"
+                                    aria-describedby="error-localidad-centro"
+                                    data-ga4-event="select_localidad_centro"
+                                    class="select-scroll-7">
+                                <option value="" disabled selected hidden></option>
+                            </select>
+
+                            <!-- Trigger pseudo-select -->
+                            <button type="button"
+                                    class="pseudo-native-trigger"
+                                    id="localidad-centro-trigger"
+                                    aria-haspopup="listbox"
+                                    aria-expanded="false">
+                            </button>
+
+                            <!-- Dropdown pseudo-select -->
+                            <div class="pseudo-native-dropdown select-scroll-7"
+                                 id="localidad-centro-dropdown"
+                                 role="listbox"
+                                 aria-labelledby="localidad-centro-trigger">
+                            </div>
+
+                            <label for="localidad-centro-trigger">Localidad del centro en el que estudio</label>
+                        </div>
+                        <small id="error-localidad-centro" class="mensaje-error">Seleccione una localidad</small>
+                    </div>
+                </div>
+
+                <!-- ===== COLUMNA DERECHA ===== -->
+                <div class="form-column form-column-right">
+
+                    <!-- Centro en el que estudio (pseudo-select) -->
+                    <div class="campo campo-select campo-centro">
+                        <div class="campo-control-select">
+                            <select id="centro-estudio"
+                                    name="centro-estudio"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="error-centro-estudio"
+                                    data-ga4-event="select_centro_estudio"
+                                    class="select-scroll-7">
+                                <option value="" disabled selected hidden></option>
+                                <option>Instituto 1</option>
+                                <option>Instituto 2</option>
+                                <option>Instituto 3</option>
+                                <option>Instituto 4</option>
+                                <option>Instituto 5</option>
+                                <option>Instituto 6</option>
+                                <option>Instituto 7</option>
+                                <option>Instituto 8</option>
+                                <option>Instituto 9</option>
+                                <option>Instituto 10</option>
+                            </select>
+
+                            <!-- Trigger pseudo-select -->
+                            <button type="button"
+                                    class="pseudo-native-trigger"
+                                    id="centro-estudio-trigger"
+                                    aria-haspopup="listbox"
+                                    aria-expanded="false">
+                            </button>
+
+                            <!-- Dropdown pseudo-select -->
+                            <div class="pseudo-native-dropdown select-scroll-7"
+                                 id="centro-estudio-dropdown"
+                                 role="listbox"
+                                 aria-labelledby="centro-estudio-trigger">
+                            </div>
+
+                            <label for="centro-estudio-trigger">Centro en el que estudio</label>
+                        </div>
+                        <small id="error-centro-estudio" class="mensaje-error">Seleccione un centro</small>
+                    </div>
+
+                    <!-- Mi curso actual -->
+                    <div class="campo campo-select campo-curso-actual">
+                        <div class="campo-control-select">
+                            <select id="curso-actual"
+                                    name="curso-actual"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="error-curso-actual"
+                                    data-ga4-event="select_curso_actual">
+                                <option value="" disabled selected hidden></option>
+                                <option>3º ESO</option>
+                                <option>4º ESO</option>
+                                <option>1º Bachillerato (penúltimo curso)</option>
+                                <option>2ª Bachillerato (último curso)</option>
+                                <option>Graduado</option>
+                                <option>Formación Profesional</option>
+                                <option>Estudiante Universitario</option>
+                            </select>
+                            <label for="curso-actual">Mi curso actual</label>
+                        </div>
+                        <small id="error-curso-actual" class="mensaje-error">Seleccione una opción</small>
+                    </div>
+
+                    <!-- Curso inicio -->
+                    <div class="campo campo-select campo-curso">
+                        <div class="campo-control-select">
+                            <select id="curso-inicio"
+                                    name="curso-inicio"
+                                    required
+                                    aria-required="true"
+                                    aria-describedby="error-curso-inicio"
+                                    data-ga4-event="select_curso_inicio">
+                                <option value="" disabled selected hidden></option>
+                                <option>Septiembre 2026</option>
+                                <option>Septiembre 2027</option>
+                                <option>Septiembre 2028</option>
+                                <option>No lo sé</option>
+                            </select>
+                            <label for="curso-inicio">Curso en el que quiero iniciar mis estudios de grado</label>
+                        </div>
+                        <small id="error-curso-inicio" class="mensaje-error">Seleccione una opción</small>
+                    </div>
+
+                    <!-- Mi titulación de interés (multi-opción) -->
+                    <div class="campo campo-titulacion-multiple"
+                         id="titulacion-multiple"
+                         aria-describedby="error-titulacion">
+
+                        <!-- Título -->
+                        <div class="titulacion-multiple-header">
+                            <span class="titulacion-multiple-title">Mi titulación de interés</span>
+                        </div>
+
+                        <!-- Contenedor de opciones -->
+                        <div class="titulacion-opciones-contenedor" id="titulacion-opciones"></div>
+
+                        <!-- Botón añadir opciones -->
+                        <button type="button"
+                                id="titulacion-add-btn"
+                                class="titulacion-add-btn"
+                                data-ga4-event="titulacion_add">
+                            <span class="titulacion-add-icon">+</span>
+                            <span class="titulacion-add-text" id="titulacion-add-text">
+                                Añadir 1º opción
+                            </span>
+                        </button>
+
+                        <small id="error-titulacion" class="mensaje-error">Seleccione una titulación</small>
+
+                        <!-- Valores que se enviarán -->
+                        <input type="hidden" id="titulacion-opcion-1" name="titulacion-opcion-1">
+                        <input type="hidden" id="titulacion-opcion-2" name="titulacion-opcion-2">
+                        <input type="hidden" id="titulacion-opcion-3" name="titulacion-opcion-3">
+                    </div>
+
+                    <!-- Toggle aviso legal -->
+                    <div class="campo campo-toggle">
+                        <div class="toggle-wrapper">
+                            <input type="checkbox"
+                                   id="aviso"
+                                   class="toggle-input"
+                                   data-ga4-event="toggle_aviso_legal"
+                                   aria-describedby="texto-aviso-legal">
+                            <label for="aviso" class="switch" aria-label="Aceptar aviso legal">
+                                <span class="slider"></span>
+                            </label>
+                            <span id="texto-aviso-legal" class="texto-aviso">
+                                He leído y acepto el
+                                <a href="#" id="enlace-aviso">aviso legal</a>
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Botón enviar (en la segunda columna) -->
+                    <button type="submit"
+                            class="boton-enviar"
+                            data-ga4-event="enviar_solicitud"
+                            disabled>
+                        ENVIAR MI SOLICITUD
+                    </button>
+                </div>
+            </div>
+
+            <!-- Modal Mi titulación de interés -->
+            <div id="modal-titulacion"
+                 class="modal"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="modal-titulacion-titulo"
+                 aria-hidden="true">
+                <div class="modal-contenido modal-titulacion-contenido">
+                    <div class="modal-header">
+                        <h2 id="modal-titulacion-titulo" tabindex="-1">Mi titulación de interés</h2>
+                        <button type="button"
+                                class="cerrar-modal-titulacion"
+                                aria-label="Cerrar selección de titulación">
+                        </button>
+                    </div>
+
+                    <div class="modal-busqueda">
+                        <div class="buscador-input-wrapper">
+                            <span class="icono-buscar" aria-hidden="true"></span>
+                            <input type="text"
+                                   id="filtro-titulaciones"
+                                   class="buscador-input"
+                                   placeholder="filtrar por nombre de titulación"
+                                   aria-label="Filtrar por nombre de titulación">
+                            <button type="button"
+                                    id="filtro-titulaciones-clear"
+                                    class="buscador-clear-btn"
+                                    aria-label="Borrar filtro de titulaciones">
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="modal-lista-titulaciones" id="lista-titulaciones">
+                        <!-- Rellenado por JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Modal aviso legal -->
+            <div id="modal-aviso"
+                 class="modal"
+                 role="dialog"
+                 aria-modal="true"
+                 aria-labelledby="modal-aviso-titulo"
+                 aria-hidden="true">
+                <div class="modal-contenido">
+                    <div class="modal-header">
+                        <h2 id="modal-aviso-titulo" tabindex="-1">Aviso legal</h2>
+                        <button type="button"
+                                class="cerrar-modal"
+                                aria-label="Cerrar aviso legal">
+                        </button>
+                    </div>
+                    <div class="modal-cuerpo">
+                        <p>
+                            Al completar el proceso de registro das tu consentimiento para que la Universidad de Navarra te envíe información, mientras sigas teniendo interés, sobre su oferta académica y las actividades que realiza para ayudarte a decidir qué estudiar, incluyendo el envío de comunicaciones electrónicas por e-mail y WhatsApp.
+                        </p>
+                        <p>
+                            Cuando lo desees podrás acceder, actualizar y suprimir tus datos y comunicar que no quieres recibir más envíos, así como ejercer otros derechos que se explican en
+                            <a href="https://www.unav.edu/proteccion-de-datos"
+                               target="_blank"
+                               rel="noopener noreferrer">
+                                https://www.unav.edu/proteccion-de-datos
+                            </a>,
+                            donde puedes obtener más información sobre la política de privacidad de la Universidad de Navarra.
+                        </p>
+                        <p>
+                            Si deseas alguna aclaración o ejercer tus derechos, por favor, contacta por e-mail con
+                            <a href="mailto:dpo@unav.es">dpo@unav.es</a>,
+                            indicando en el texto del mensaje “Registro en miUNAV”.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </main>
+
+    <script src="script-multi.js"></script>
+</body>
+</html>
