@@ -165,7 +165,7 @@ body {
 }
 
 .campo.flotante.valid .icono-validacion {
-    background-image: url('ok-verde.svg');
+    background-image: url('iconos/ok-verde.svg');
 }
 
 .campo.flotante.invalid input {
@@ -175,7 +175,7 @@ body {
 }
 
 .campo.flotante.invalid .icono-validacion {
-    background-image: url('ko-rojo.svg');
+    background-image: url('iconos/ko-rojo.svg');
 }
 
 /* Mensajes de error */
@@ -257,7 +257,7 @@ body {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url('chevron-down-negro.svg');
+    background-image: url('iconos/chevron-down-negro.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -287,16 +287,15 @@ body {
 .campo-select.valid select {
     border-color: #40c85d;
     border-width: 2px;
-    font-weight: 700;
 }
 
 .campo-select.valid .campo-control-select::after {
-    background-image: url('chevron-down-ok.svg');
+    background-image: url('iconos/chevron-down-ok.svg');
 }
 
 .campo-select.abierto .campo-control-select::after,
 .campo-select.pseudo-open .campo-control-select::after {
-    background-image: url('chevron-up-negro.svg') !important;
+    background-image: url('iconos/chevron-up-negro.svg') !important;
 }
 
 .campo-select.invalid select {
@@ -689,7 +688,7 @@ body {
     height: 24px;
     flex: 0 0 18px;
     padding: 0;
-    background-image: url('mover.svg');
+    background-image: url('iconos/mover.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -717,7 +716,7 @@ body {
     height: 12px;
     flex: 0 0 12px;
     padding: 0;
-    background-image: url('cerrar-negro.svg');
+    background-image: url('iconos/cerrar-negro.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -847,7 +846,7 @@ body {
     width: 20px;
     height: 20px;
     padding: 0;
-    background-image: url('cerrar-modal.svg');
+    background-image: url('iconos/cerrar-modal.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -894,7 +893,7 @@ body {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url('buscar.svg');
+    background-image: url('iconos/buscar.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -921,7 +920,7 @@ body {
     height: 16px;
     border: none;
     background-color: transparent;
-    background-image: url('cerrar-negro.svg');
+    background-image: url('iconos/cerrar-negro.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
