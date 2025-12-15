@@ -22,31 +22,50 @@ body {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 24px;
+    padding: 16px 0;
 }
 
 .formulario {
     width: 100%;
-    max-width: 540px;
+    max-width: 768px; /* 370 + 370 + 18 + 5 + 5 */
     display: flex;
     flex-direction: column;
     gap: 0;
+    padding: 0 5px; /* aire lateral dentro del iframe */
 }
 
-/* Título y subtítulo */
+/* Título y subtítulo (no se usan aquí, por si se reutiliza) */
 .form-titulo {
     font-family: 'Roboto', sans-serif;
     font-weight: 600;
-    font-size: 32px; /* desktop */
-    margin: 0 0 4px 0; /* 4px hasta el subtítulo */
+    font-size: 32px;
+    margin: 0 0 4px 0;
 }
 
 .form-subtitulo {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
-    font-size: 18px; /* desktop */
-    margin: 0 0 8px 0; /* 8px hasta "Soy..." */
+    font-size: 18px;
+    margin: 0 0 25px 0;
 }
+
+/* CONTENEDOR DE COLUMNAS */
+.form-columns {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    width: 100%;
+}
+
+/* separación entre columna 1 y 2 en mobile */
+.form-column {
+    width: 100%;
+    max-width: 370px;
+}
+
+    .form-column + .form-column {
+        margin-top: 8px;
+    }
 
 /* Campos genéricos */
 .campo {
@@ -55,57 +74,22 @@ body {
     margin-bottom: 0;
 }
 
-/* Perfil - desktop */
-.campo-perfil {
+/* Soy... solo select (sin negrita en la etiqueta al seleccionar) */
+.campo-perfil-select {
     display: flex;
-    align-items: center;
-    font-size: 16px;
-    margin-top: 0;
-    margin-bottom: 4px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    margin-bottom: 0;
 }
 
-.campo-perfil-label {
-    margin-right: 10px;
-}
-
-.opciones-perfil {
-    display: inline-flex;
-    gap: 20px;
-    flex-wrap: wrap;
-}
-
-.opcion-perfil {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 16px;
-}
-
-    .opcion-perfil input[type="radio"] {
-        accent-color: #40c85d;
-        width: 18px;
-        height: 18px;
-    }
-
-    .opcion-perfil span {
-        color: #000000;
-    }
-
-    .opcion-perfil input[type="radio"]:checked + span {
+    /* Valor seleccionado en negrita, etiqueta siempre normal */
+    .campo-perfil-select.tiene-valor select {
         font-weight: 700;
     }
 
-/* Perfil - mobile */
-.campo-perfil-select {
-    display: none;
-}
-
-/* Campos de texto flotantes */
+/* Campos flotantes texto */
 .campo.flotante .campo-control {
     position: relative;
     height: 48px;
+    min-height: 48px;
 }
 
 .campo.flotante input {
@@ -113,6 +97,7 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
+    min-height: 48px;
     border-radius: 4px;
     border: 1px solid #b3b3b3;
     background-color: #ffffff;
@@ -176,7 +161,7 @@ body {
 }
 
 .campo.flotante.valid .icono-validacion {
-    background-image: url('ok-verde.svg');
+    background-image: url('iconos/ok-verde.svg');
 }
 
 .campo.flotante.invalid input {
@@ -186,7 +171,7 @@ body {
 }
 
 .campo.flotante.invalid .icono-validacion {
-    background-image: url('ko-rojo.svg');
+    background-image: url('iconos/ko-rojo.svg');
 }
 
 /* Mensajes de error */
@@ -212,6 +197,7 @@ body {
 .campo-control-select {
     position: relative;
     height: 48px;
+    min-height: 48px;
 }
 
 .campo-select select {
@@ -219,6 +205,7 @@ body {
     inset: 0;
     width: 100%;
     height: 100%;
+    min-height: 48px;
     border-radius: 4px;
     border: 1px solid #b3b3b3;
     padding: 18px 32px 8px 12px;
@@ -232,7 +219,14 @@ body {
     appearance: none;
 }
 
-/* limitar altura aproximada de lista */
+/* select usado con pseudo-trigger:
+   no recibe eventos, pero sigue dibujando borde/valor */
+.native-select-hidden {
+    pointer-events: none;
+    background-color: transparent;
+}
+
+/* limitar visualmente área a 7 opciones */
 .select-scroll-7 {
     max-height: calc(7 * 2.4em);
     overflow-y: auto;
@@ -259,7 +253,7 @@ body {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url('chevron-down-negro.svg');
+    background-image: url('iconos/chevron-down-negro.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -292,16 +286,82 @@ body {
 }
 
 .campo-select.valid .campo-control-select::after {
-    background-image: url('chevron-down-ok.svg');
+    background-image: url('iconos/chevron-down-ok.svg');
 }
 
-.campo-select.abierto .campo-control-select::after {
-    background-image: url('chevron-up-negro.svg') !important;
+.campo-select.abierto .campo-control-select::after,
+.campo-select.pseudo-open .campo-control-select::after {
+    background-image: url('iconos/chevron-up-negro.svg') !important;
 }
 
 .campo-select.invalid select {
     border-color: #ff0000;
     border-width: 2px;
+}
+
+/* ===== Pseudo-select nativo (Prefijo / País / Provincia / Localidad / Centro) ===== */
+.pseudo-native-trigger {
+    position: absolute;
+    inset: 0;
+    border: none;
+    background: transparent;
+    padding: 0;
+    cursor: pointer;
+    z-index: 3;
+}
+
+/* Dropdown custom */
+.pseudo-native-dropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    margin-top: 4px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    border: 1px solid #b3b3b3;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    display: none;
+    z-index: 20;
+}
+
+.campo-select.pseudo-open .pseudo-native-dropdown {
+    display: block;
+}
+
+/* Cuando el desplegable se abre hacia arriba */
+.campo-select.open-up .pseudo-native-dropdown {
+    top: auto;
+    bottom: 100%;
+    margin-top: 0;
+    margin-bottom: 4px;
+}
+
+.pseudo-native-option {
+    padding: 8px 10px;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+    .pseudo-native-option:hover,
+    .pseudo-native-option[aria-selected="true"] {
+        background-color: #f5f5f5;
+    }
+
+.pseudo-option-flag {
+    width: 20px;
+    height: 14px;
+    flex: 0 0 20px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.pseudo-option-text {
+    font-size: 14px;
 }
 
 /* ===== Prefijo ===== */
@@ -310,48 +370,35 @@ body {
     flex-shrink: 0;
 }
 
-    /* El select como base (overlay dibuja bandera+prefijo) */
     .campo-prefijo select {
         padding-left: 12px;
     }
 
-/* Overlay: bandera PNG + prefijo */
+/* Overlay: bandera + prefijo */
 .prefijo-overlay {
     position: absolute;
     left: 12px;
-    right: 32px; /* hueco chevron */
-    top: 10px; /* ajuste vertical según captura */
+    right: 32px;
+    top: 10px;
     bottom: 0;
     display: flex;
     align-items: center;
     gap: 6px;
     pointer-events: none;
-    background-color: transparent; /* no tapa el borde */
+    background-color: transparent;
     visibility: hidden;
-    z-index: 1; /* por encima del texto, por debajo del label flotante */
+    z-index: 1;
 }
 
-/* Mostrar overlay solo cuando hay valor */
 .campo-prefijo.tiene-valor .prefijo-overlay {
     visibility: visible;
 }
 
-/* En cerrado con valor: ocultamos texto nativo del select */
 .campo-prefijo.tiene-valor select {
     color: transparent;
     text-shadow: none;
 }
 
-/* En foco (desplegable abierto): mostramos texto y ocultamos overlay */
-.campo-prefijo.tiene-valor:focus-within select {
-    color: #000000;
-}
-
-.campo-prefijo.tiene-valor:focus-within .prefijo-overlay {
-    visibility: hidden;
-}
-
-/* Bandera PNG */
 .prefijo-flag {
     width: 24px;
     height: 16px;
@@ -361,19 +408,21 @@ body {
     background-size: contain;
 }
 
-/* Prefijo (+34, +33...) */
 .prefijo-prefix {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
 
-/* Label de prefijo por encima del overlay */
+/* Prefijo seleccionado: negrita */
+.campo-prefijo.tiene-valor .prefijo-prefix {
+    font-weight: 700;
+}
+
 .campo-prefijo label {
     z-index: 2;
 }
 
-/* Ajuste fino: un pelín más arriba para dejar más aire respecto a bandera+prefijo */
 .campo-prefijo.campo-select:focus-within label,
 .campo-prefijo.campo-select.tiene-valor label {
     top: 2px;
@@ -391,20 +440,10 @@ body {
     margin-bottom: 0;
 }
 
-/* Selects ancho completo */
-.campo-pais,
-.campo-provincia,
-.campo-localidad,
-.campo-centro,
-.campo-curso-actual,
-.campo-curso {
-    width: 100%;
+/* ===== País ===== */
+.campo-pais select {
+    padding-left: 12px;
 }
-
-    /* ===== País (bandera en cerrado) ===== */
-    .campo-pais select {
-        padding-left: 12px;
-    }
 
 /* Overlay bandera + país */
 .pais-overlay {
@@ -422,27 +461,15 @@ body {
     z-index: 1;
 }
 
-/* Mostrar overlay cuando hay valor */
 .campo-pais.tiene-valor .pais-overlay {
     visibility: visible;
 }
 
-/* En cerrado con valor ocultamos texto nativo */
 .campo-pais.tiene-valor select {
     color: transparent;
     text-shadow: none;
 }
 
-/* En foco: mostramos texto y ocultamos overlay */
-.campo-pais.tiene-valor:focus-within select {
-    color: #000000;
-}
-
-.campo-pais.tiene-valor:focus-within .pais-overlay {
-    visibility: hidden;
-}
-
-/* Bandera PNG país */
 .pais-flag {
     width: 24px;
     height: 16px;
@@ -452,25 +479,27 @@ body {
     background-size: contain;
 }
 
-/* Texto del país en overlay */
 .pais-text {
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
 }
 
-/* Label país por encima del overlay */
+/* País seleccionado: negrita */
+.campo-pais.tiene-valor .pais-text {
+    font-weight: 700;
+}
+
 .campo-pais label {
     z-index: 2;
 }
 
-/* Ajuste fino de label país */
 .campo-pais.campo-select:focus-within label,
 .campo-pais.campo-select.tiene-valor label {
     top: 2px;
 }
 
-/* Banderas también en el desplegable de país */
+/* Banderas en desplegable nativo (por si se usa) */
 #pais-centro option[data-flag] {
     background-repeat: no-repeat;
     background-position: 8px center;
@@ -558,12 +587,34 @@ body {
     background-image: url('banderas/za.png');
 }
 
+/* ==== Negrita en seleccionados de determinados selects ==== */
+.campo-provincia.tiene-valor select,
+.campo-localidad.tiene-valor select,
+.campo-centro.tiene-valor select,
+.campo-curso-actual.tiene-valor select,
+.campo-curso.tiene-valor select {
+    font-weight: 700;
+}
+
+/* Campo Mi titulación de interés (única) */
+.campo-titulacion {
+    width: 100%;
+    background-color: transparent; /* sin fondo especial */
+    border-radius: 0; /* igual que el resto de campos */
+    padding: 0; /* que ocupe solo la caja del pseudo-select */
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+
 /* Pseudo-select titulación */
 .pseudo-select-boton {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
+    min-height: 48px;
     border-radius: 4px;
     border: 1px solid #b3b3b3;
     background-color: #ffffff;
@@ -600,6 +651,7 @@ body {
     padding: 18px 32px 8px 12px;
 }
 
+/* Titulación válida / inválida */
 .campo-titulacion.valid .pseudo-select-boton {
     border-color: #40c85d;
     border-width: 2px;
@@ -610,141 +662,10 @@ body {
     border-width: 2px;
 }
 
-/* Bloque Mi titulación de interés */
-.campo-titulacion-multiple {
-    width: 100%;
-    background-color: #fafafa;
-    border-radius: 12px;
-    padding: 8px;
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+/* Titulación seleccionada en negrita */
+.campo-titulacion.tiene-valor .pseudo-select-texto {
+    font-weight: 700;
 }
-
-.titulacion-multiple-header {
-    display: block;
-}
-
-.titulacion-multiple-title {
-    font-size: 16px;
-    font-weight: 400;
-}
-
-.titulacion-opciones-contenedor {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-}
-
-    .titulacion-opciones-contenedor.dragging-activo {
-        background-color: #f9f9f9;
-        border-radius: 8px;
-        padding: 4px 0;
-    }
-
-.titulacion-add-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    font-size: 14px;
-    font-family: 'Roboto', sans-serif;
-    color: #000000;
-}
-
-.titulacion-add-icon {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background-color: #000000;
-    color: #ffffff;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 16px;
-    line-height: 1;
-}
-
-.titulacion-opcion-row {
-    position: relative;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 4px 0;
-}
-
-    .titulacion-opcion-row .campo-titulacion {
-        flex: 1 1 auto;
-    }
-
-    /* Fila arrastrada: gris oscuro */
-    .titulacion-opcion-row.dragging {
-        background-color: #d0d0d0;
-        border-radius: 8px;
-        box-shadow: 0 0 0 1px #9a9a9a;
-    }
-
-    .titulacion-opcion-row.drop-before::before,
-    .titulacion-opcion-row.drop-after::after {
-        content: none;
-    }
-
-/* Drag handle (mover.svg) */
-.titulacion-drag-handle {
-    border: none;
-    background-color: transparent;
-    cursor: grab;
-    width: 12px;
-    height: 12px;
-    flex: 0 0 12px;
-    padding: 0;
-    background-image: url('mover.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    text-indent: -9999px;
-    overflow: hidden;
-}
-
-    .titulacion-drag-handle:hover {
-        filter: brightness(0.2);
-    }
-
-    .titulacion-drag-handle:active {
-        cursor: grabbing;
-    }
-
-/* Botón eliminar (cerrar-negro.svg) */
-.titulacion-remove-btn {
-    border: none;
-    background: none;
-    cursor: pointer;
-    width: 12px;
-    height: 12px;
-    flex: 0 0 12px;
-    padding: 0;
-    background-image: url('cerrar-negro.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: contain;
-    text-indent: -9999px;
-    overflow: hidden;
-}
-
-/* Titulaciones usadas en otras opciones (en modal) */
-.item-titulacion.titulacion-seleccionada {
-    text-decoration: line-through;
-    opacity: 0.6;
-    cursor: default;
-}
-
-    .item-titulacion.titulacion-seleccionada:hover,
-    .item-titulacion.titulacion-seleccionada:focus-visible {
-        background-color: transparent;
-    }
 
 /* Toggle aviso legal */
 .campo-toggle {
@@ -847,7 +768,7 @@ body {
         font-size: 20px;
     }
 
-/* Botones cerrar modal (cerrar-modal.svg) */
+/* Botones cerrar modal */
 .cerrar-modal,
 .cerrar-modal-titulacion {
     border: none;
@@ -856,7 +777,7 @@ body {
     width: 20px;
     height: 20px;
     padding: 0;
-    background-image: url('cerrar-modal.svg');
+    background-image: url('iconos/cerrar-modal.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -895,7 +816,7 @@ body {
     position: relative;
 }
 
-/* Icono buscar (buscar.svg) */
+/* Icono buscar */
 .icono-buscar {
     position: absolute;
     left: 10px;
@@ -903,7 +824,7 @@ body {
     transform: translateY(-50%);
     width: 16px;
     height: 16px;
-    background-image: url('buscar.svg');
+    background-image: url('iconos/buscar.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -913,14 +834,14 @@ body {
 
 .buscador-input {
     width: 100%;
-    padding: 8px 36px 8px 36px; /* espacio para lupa + aspa */
+    padding: 8px 36px 8px 36px;
     border-radius: 4px;
     border: 1px solid #b3b3b3;
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 }
 
-/* Botón borrar filtro (cerrar-negro.svg) */
+/* Botón borrar filtro */
 .buscador-clear-btn {
     position: absolute;
     right: 10px;
@@ -930,7 +851,7 @@ body {
     height: 16px;
     border: none;
     background-color: transparent;
-    background-image: url('cerrar-negro.svg');
+    background-image: url('iconos/cerrar-negro.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
@@ -981,7 +902,7 @@ body {
 /* Botón enviar */
 .boton-enviar {
     width: 100%;
-    max-width: 540px;
+    max-width: 370px;
     height: 48px;
     background-color: #EDEDED;
     border: 1px solid #000000;
@@ -1000,7 +921,6 @@ body {
         cursor: pointer;
     }
 
-        /* Hover / click en botón activo: rojo */
         .boton-enviar.boton-activo:hover,
         .boton-enviar.boton-activo:active {
             background-color: #ff0000;
@@ -1012,10 +932,32 @@ body {
         color: #000000;
     }
 
-/* Responsive */
+/* ===== RESPONSIVE / DESKTOP 2 COLUMNAS (iframe 768px) ===== */
+@media (min-width: 768px) {
+    .formulario {
+        max-width: 768px;
+    }
+
+    .form-columns {
+        flex-direction: row;
+        justify-content: space-between;
+        gap: 18px; /* separación entre columnas */
+    }
+
+    .form-column {
+        flex: 0 0 370px;
+        max-width: 370px;
+    }
+
+        .form-column + .form-column {
+            margin-top: 0;
+        }
+}
+
+/* Responsive mobile / narrow */
 @media (max-width: 600px) {
     .contenedor-principal {
-        padding: 16px;
+        padding: 16px 8px;
     }
 
     .form-titulo {
