@@ -910,10 +910,68 @@ function clearDropHintsTitulaciones() {
         .forEach(row => row.classList.remove('drop-before', 'drop-after'));
 }
 
+// --- Drag & drop con Pointer Events (desktop + mobile) ---
+function iniciarArrastreFila(fila, event) {
+    if (!titulacionOpcionesContainer) return;
+
+    filaArrastrando = fila;
+    fila.classList.add('dragging');
+    titulacionOpcionesContainer.classList.add('dragging-activo');
+
+    const onPointerMove = (ev) => {
+        if (!filaArrastrando) return;
+        ev.preventDefault();
+
+        const pointerY = ev.clientY;
+        const filas = Array.from(titulacionOpcionesContainer.children)
+            .filter(row => row !== filaArrastrando);
+        if (filas.length === 0) return;
+
+        let target = null;
+        let insertBefore = false;
+
+        for (const row of filas) {
+            const rect = row.getBoundingClientRect();
+            const midY = rect.top + rect.height / 2;
+            if (pointerY < midY) {
+                target = row;
+                insertBefore = true;
+                break;
+            }
+        }
+
+        if (!target) {
+            target = filas[filas.length - 1];
+            insertBefore = false;
+        }
+
+        if (insertBefore) {
+            titulacionOpcionesContainer.insertBefore(filaArrastrando, target);
+        } else {
+            titulacionOpcionesContainer.insertBefore(filaArrastrando, target.nextSibling);
+        }
+    };
+
+    const onPointerUp = (ev) => {
+        if (!filaArrastrando) return;
+        ev.preventDefault();
+
+        filaArrastrando.classList.remove('dragging');
+        titulacionOpcionesContainer.classList.remove('dragging-activo');
+        filaArrastrando = null;
+        document.removeEventListener('pointermove', onPointerMove);
+        document.removeEventListener('pointerup', onPointerUp);
+        actualizarOrdenTitulacionesDesdeDOM();
+        clearDropHintsTitulaciones();
+    };
+
+    document.addEventListener('pointermove', onPointerMove);
+    document.addEventListener('pointerup', onPointerUp);
+}
+
 function crearFilaTitulacion() {
     const fila = document.createElement('div');
     fila.className = 'titulacion-opcion-row';
-    fila.draggable = false;
 
     const handle = document.createElement('button');
     handle.type = 'button';
@@ -971,59 +1029,10 @@ function crearFilaTitulacion() {
         eliminarOpcion(indice);
     });
 
-    // Drag solo desde el icono
-    handle.addEventListener('mousedown', () => {
-        fila.draggable = true;
-    });
-
-    const desactivarDraggable = () => {
-        fila.draggable = false;
-    };
-    handle.addEventListener('mouseup', desactivarDraggable);
-    handle.addEventListener('mouseleave', desactivarDraggable);
-
-    fila.addEventListener('dragstart', e => {
-        filaArrastrando = fila;
-        fila.classList.add('dragging');
-        if (titulacionOpcionesContainer) {
-            titulacionOpcionesContainer.classList.add('dragging-activo');
-        }
-        if (e.dataTransfer) {
-            e.dataTransfer.effectAllowed = 'move';
-            e.dataTransfer.setData('text/plain', '');
-        }
-    });
-
-    fila.addEventListener('dragend', () => {
-        if (filaArrastrando) {
-            filaArrastrando.classList.remove('dragging');
-        }
-        filaArrastrando = null;
-        clearDropHintsTitulaciones();
-        if (titulacionOpcionesContainer) {
-            titulacionOpcionesContainer.classList.remove('dragging-activo');
-        }
-        fila.draggable = false;
-        actualizarOrdenTitulacionesDesdeDOM();
-    });
-
-    fila.addEventListener('dragover', e => {
+    // Drag SOLO desde el icono, usando Pointer Events (funciona en móvil)
+    handle.addEventListener('pointerdown', (e) => {
         e.preventDefault();
-        if (!titulacionOpcionesContainer || !filaArrastrando || filaArrastrando === fila) return;
-
-        const bounding = fila.getBoundingClientRect();
-        const offset = e.clientY - bounding.top;
-        const shouldInsertBefore = offset < bounding.height / 2;
-
-        clearDropHintsTitulaciones();
-
-        if (shouldInsertBefore) {
-            fila.classList.add('drop-before');
-            titulacionOpcionesContainer.insertBefore(filaArrastrando, fila);
-        } else {
-            fila.classList.add('drop-after');
-            titulacionOpcionesContainer.insertBefore(filaArrastrando, fila.nextSibling);
-        }
+        iniciarArrastreFila(fila, e);
     });
 
     return fila;
@@ -1392,7 +1401,7 @@ formulario.addEventListener('submit', (e) => {
         }
     }
 
-    // Validación de Soy… con feedback visual, sin alert()
+    // Validación de Soy… con feedback visual
     if (!esPerfilValido()) {
         formularioValido = false;
         if (perfilSelect && perfilSelectCampo) {
