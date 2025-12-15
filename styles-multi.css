@@ -747,8 +747,8 @@ body {
     border: none;
     background-color: transparent;
     cursor: grab;
-    width: 18px;
-    height: 18px;
+    width: 24px;
+    height: 24px;
     flex: 0 0 18px;
     padding: 0;
     background-image: url('iconos/mover.svg');
@@ -1106,3 +1106,4 @@ body {
         width: 140px;
     }
 }
+
